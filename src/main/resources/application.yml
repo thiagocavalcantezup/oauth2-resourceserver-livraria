@@ -29,7 +29,9 @@ spring:
         generate-ddl: true
         show-sql: true
         open-in-view: false
+        properties:
+            hibernate:
+                format_sql: true
         hibernate:
-            format_sql: true
             ddl-auto: update
             dialect: org.hibernate.dialect.H2Dialect
