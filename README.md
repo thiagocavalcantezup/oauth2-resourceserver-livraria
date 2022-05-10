@@ -21,7 +21,6 @@ Para configurar e rodar a aplicação em ambiente local basta seguir os passos:
 
 ```shell
 git clone git@github.com:zup-academy/oauth2-resourceserver-livraria.git
-cd oauth2-resourceserver-livraria
 ```
 
 2. Importar o projeto na IDE IntelliJ;
