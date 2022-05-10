@@ -1,10 +1,11 @@
 package br.com.zup.edu.livraria.autores;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import br.com.zup.edu.livraria.livros.Livro;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Autor {
@@ -21,6 +22,12 @@ public class Autor {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();
+
+    @OneToMany(
+        mappedBy = "autor",
+        cascade = { CascadeType.PERSIST, CascadeType.REMOVE }
+    )
+    private List<Livro> livros = new ArrayList<>();
 
     @Deprecated
     public Autor(){}
@@ -49,5 +56,9 @@ public class Autor {
 
     public LocalDateTime getCriadoEm() {
         return criadoEm;
+    }
+
+    public List<Livro> getLivros() {
+        return livros;
     }
 }
