@@ -1,6 +1,6 @@
 # Projeto de Livraria (OAuth2 Resource Server)
 
-Projeto backend de uma API REST que representa uma livraria online. Este projeto é utilizado no módulo de segurança com Spring Security e OAuth2, servindo como Resource Server para atividade.
+Projeto backend de uma API REST que representa uma livraria online. Este projeto é utilizado no módulo de segurança com Spring Security e OAuth2, servindo como Resource Server para a atividade.
 
 ## Tecnologias utilizadas:
 
@@ -34,9 +34,9 @@ cd oauth2-resourceserver-livraria
 
 ## Consumindo a API REST da aplicação
 
-Aqui demonstramos através de exemplos como podemos consumir a API REST exposta pela aplicação.
+Aqui demonstramos através de alguns exemplos como você pode consumir a API REST exposta pela aplicação. Estamos utilizando o comando `cURL` como cliente HTTP mas você pode usar qualquer outro de sua preferência, como POSTman ou Insomnia. 
 
-Dado que a aplicação esteja rodando, basta executar os alguns dos comandos abaixo para exercitar os endpoints públicos da aplicação.
+Dado que a aplicação esteja rodando, basta executar os comandos abaixo para exercitar os endpoints públicos da aplicação.
 
 ### Criando novo autor
 
@@ -44,7 +44,6 @@ Dado que a aplicação esteja rodando, basta executar os alguns dos comandos aba
 curl --request POST \
   --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores \
   --header 'Content-Type: application/json' \
-  --cookie JSESSIONID=56AB29FE8A394FBA578AD8C24723E80E \
   --data '{
 	"nome": "Alberto Souza",
 	"descricao": "CTO People na Zup",
@@ -54,11 +53,12 @@ curl --request POST \
 
 ### Criando novo livro
 
+Caso precise gerar ISBN únicos para exercitar este endpoint, basta gera-los no formato `ISBN 13` [neste site](https://generate.plus/en/number/isbn).
+
 ```shell
 curl --request POST \
   --url http://localhost:8080/oauth2-resourceserver-livraria/api/livros \
   --header 'Content-Type: application/json' \
-  --cookie JSESSIONID=56AB29FE8A394FBA578AD8C24723E80E \
   --data '{
 	"nome": "Spring Security",
 	"descricao": "Livro sobre Spring Security",
@@ -66,6 +66,24 @@ curl --request POST \
 	"publicadoEm": "2022-01-01",
 	"autorId": "1"
 }'
+```
+
+### Detalhando autor existente
+```shell
+curl --request GET \
+  --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1
+```
+
+### Detalhando um livro existente
+```shell
+curl --request GET \
+  --url http://localhost:8080/oauth2-resourceserver-livraria/api/livros/1
+```
+
+### Removendo um autor existente
+```shell
+curl --request DELETE \
+  --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1
 ```
 
 ## Duvidas e suporte
