@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Oauth2ResourcerserverLivrariaApplication {
+public class Oauth2ResourceserverLivrariaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Oauth2ResourcerserverLivrariaApplication.class, args);
+		SpringApplication.run(Oauth2ResourceserverLivrariaApplication.class, args);
 	}
 
 }
