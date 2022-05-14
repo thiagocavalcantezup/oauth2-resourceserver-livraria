@@ -35,3 +35,12 @@ spring:
         hibernate:
             ddl-auto: update
             dialect: org.hibernate.dialect.H2Dialect
+##
+# Spring Security - OAuth2 Resource Server
+##
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri:  http://localhost:18080/auth/realms/livraria
+                    jwk-set-uri: http://localhost:18080/auth/realms/livraria/protocol/openid-connect/certs
