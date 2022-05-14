@@ -3,7 +3,7 @@ package br.com.zup.edu.livraria.livros;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class DetalhesDoLivro {
+public class DetalhesDoLivroResponse {
 
     private Long id;
     private String nome;
@@ -13,7 +13,7 @@ public class DetalhesDoLivro {
     private LocalDate publicadoEm;
     private LocalDateTime criadoEm;
 
-    public DetalhesDoLivro(Livro livro) {
+    public DetalhesDoLivroResponse(Livro livro) {
         this.id = livro.getId();
         this.nome = livro.getNome();
         this.descricao = livro.getDescricao();

@@ -9,6 +9,7 @@ public class DetalhesDoAutorResponse {
 
     private final Long id;
     private final String nome;
+    private final String email;
     private final String descricao;
     private final LocalDateTime criadoEm;
     private final List<LivroResponse> livros;
@@ -16,6 +17,7 @@ public class DetalhesDoAutorResponse {
     public DetalhesDoAutorResponse(Autor autor) {
         this.id = autor.getId();
         this.nome = autor.getNome();
+        this.email = autor.getEmail();
         this.descricao = autor.getDescricao();
         this.criadoEm = autor.getCriadoEm();
         this.livros = autor.getLivros().stream().map((livro) -> {
@@ -29,6 +31,10 @@ public class DetalhesDoAutorResponse {
 
     public String getNome() {
         return nome;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getDescricao() {

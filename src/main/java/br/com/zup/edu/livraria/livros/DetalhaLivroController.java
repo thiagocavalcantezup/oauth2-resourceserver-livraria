@@ -1,6 +1,5 @@
 package br.com.zup.edu.livraria.livros;
 
-import br.com.zup.edu.livraria.autores.Autor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,6 @@ public class DetalhaLivroController {
         });
 
         return ResponseEntity
-                .ok(new DetalhesDoLivro(livro));
+                .ok(new DetalhesDoLivroResponse(livro));
     }
 }
