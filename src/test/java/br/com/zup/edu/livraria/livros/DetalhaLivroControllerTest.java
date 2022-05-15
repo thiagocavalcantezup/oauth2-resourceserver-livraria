@@ -6,9 +6,11 @@ import br.com.zup.edu.livraria.autores.AutorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +40,10 @@ class DetalhaLivroControllerTest extends SpringBootIntegrationTest {
         repository.save(existente);
 
         // ação e validação
-        mockMvc.perform(GET("/api/livros/{id}", existente.getId()))
+        mockMvc.perform(GET("/api/livros/{id}", existente.getId())
+                        .with(jwt()
+                            .authorities(new SimpleGrantedAuthority("SCOPE_livros:read"))
+                        ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(existente.getId()))
                 .andExpect(jsonPath("$.nome").value(existente.getNome()))
@@ -58,9 +63,41 @@ class DetalhaLivroControllerTest extends SpringBootIntegrationTest {
         repository.save(existente);
 
         // ação e validação
-        mockMvc.perform(GET("/api/livros/{id}", -99999))
+        mockMvc.perform(GET("/api/livros/{id}", -99999)
+                        .with(jwt()
+                            .authorities(new SimpleGrantedAuthority("SCOPE_livros:read"))
+                        ))
                 .andExpect(status().isNotFound())
                 .andExpect(status().reason("livro não encontrado"))
+        ;
+    }
+
+    @Test
+    public void deveDetalharLivroExistente_quandoAccessTokenNaoEnviado() throws Exception {
+
+        // cenário
+        Livro existente = new Livro("Spring Security",
+                "Sobre Spring Security", "978-0-4703-2225-3", AUTOR, LocalDate.now());
+        repository.save(existente);
+
+        // ação e validação
+        mockMvc.perform(GET("/api/livros/{id}", existente.getId()))
+                .andExpect(status().isUnauthorized())
+        ;
+    }
+
+    @Test
+    public void deveDetalharLivroExistente_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
+
+        // cenário
+        Livro existente = new Livro("Spring Security",
+                "Sobre Spring Security", "978-0-4703-2225-3", AUTOR, LocalDate.now());
+        repository.save(existente);
+
+        // ação e validação
+        mockMvc.perform(GET("/api/livros/{id}", existente.getId())
+                        .with(jwt()))
+                .andExpect(status().isForbidden())
         ;
     }
 
