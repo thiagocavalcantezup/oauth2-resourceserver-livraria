@@ -92,7 +92,7 @@ class NovoLivroControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveCadastrarNovoLivro_quandoAccessTokenNaoEnviado() throws Exception {
+    public void naoDeveCadastrarNovoLivro_quandoAccessTokenNaoEnviado() throws Exception {
         // cenário
         NovoLivroRequest novoLivro = new NovoLivroRequest("Arquitetura Java",
                 "Sobre arquitetura java", "978-0-4703-2225-3", AUTOR.getId(), LocalDate.now());
@@ -104,7 +104,7 @@ class NovoLivroControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveCadastrarNovoLivro_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
+    public void naoDeveCadastrarNovoLivro_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
         // cenário
         NovoLivroRequest novoLivro = new NovoLivroRequest("Arquitetura Java",
                 "Sobre arquitetura java", "978-0-4703-2225-3", AUTOR.getId(), LocalDate.now());

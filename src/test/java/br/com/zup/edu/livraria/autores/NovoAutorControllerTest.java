@@ -79,7 +79,7 @@ class NovoAutorControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveCadastrarNovoAutor_quandoAccessTokenNaoEnviado() throws Exception {
+    public void naoDeveCadastrarNovoAutor_quandoAccessTokenNaoEnviado() throws Exception {
         // cenário
         NovoAutorRequest novoAutor = new NovoAutorRequest("Alberto", "alberto.souza@zup.com.br", "CTO");
 
@@ -90,7 +90,7 @@ class NovoAutorControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveCadastrarNovoAutor_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
+    public void naoDeveCadastrarNovoAutor_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
         // cenário
         NovoAutorRequest novoAutor = new NovoAutorRequest("Alberto", "alberto.souza@zup.com.br", "CTO");
 

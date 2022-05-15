@@ -59,7 +59,7 @@ class DetalhaAutorControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveDetalharAutorExistente_quandoAccessTokenNaoEnviado() throws Exception {
+    public void naoDeveDetalharAutorExistente_quandoAccessTokenNaoEnviado() throws Exception {
         // cenário
         Autor autor = new Autor("Rafael","rafael.ponte@zup.com.br", "dev cansado");
         repository.save(autor);
@@ -71,7 +71,7 @@ class DetalhaAutorControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveDetalharAutorExistente_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
+    public void naoDeveDetalharAutorExistente_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
         // cenário
         Autor autor = new Autor("Rafael","rafael.ponte@zup.com.br", "dev cansado");
         repository.save(autor);

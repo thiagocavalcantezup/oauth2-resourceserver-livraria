@@ -73,7 +73,7 @@ class DetalhaLivroControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveDetalharLivroExistente_quandoAccessTokenNaoEnviado() throws Exception {
+    public void naoDeveDetalharLivroExistente_quandoAccessTokenNaoEnviado() throws Exception {
 
         // cenário
         Livro existente = new Livro("Spring Security",
@@ -87,7 +87,7 @@ class DetalhaLivroControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveDetalharLivroExistente_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
+    public void naoDeveDetalharLivroExistente_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
 
         // cenário
         Livro existente = new Livro("Spring Security",

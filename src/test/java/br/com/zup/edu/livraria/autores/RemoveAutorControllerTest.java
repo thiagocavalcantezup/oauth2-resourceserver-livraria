@@ -58,7 +58,7 @@ class RemoveAutorControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveRemoverAutorExistente_quandoAccessTokenNaoEnviado() throws Exception {
+    public void naoDeveRemoverAutorExistente_quandoAccessTokenNaoEnviado() throws Exception {
         // cenário
         Autor autor = new Autor("Rafael","rafael.ponte@zup.com.br", "dev cansado");
         repository.save(autor);
@@ -70,7 +70,7 @@ class RemoveAutorControllerTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    public void deveRemoverAutorExistente_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
+    public void naoDeveRemoverAutorExistente_quandoAccessTokenNaoPossuiScopeApropriado() throws Exception {
         // cenário
         Autor autor = new Autor("Rafael","rafael.ponte@zup.com.br", "dev cansado");
         repository.save(autor);
