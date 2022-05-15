@@ -35,7 +35,7 @@ class RemoveAutorControllerTest extends SpringBootIntegrationTest {
         ;
 
         // validação
-        assertEquals(0, repository.count(), "total de albuns");
+        assertEquals(0, repository.count(), "total de autores");
     }
 
     @Test
@@ -54,7 +54,7 @@ class RemoveAutorControllerTest extends SpringBootIntegrationTest {
         ;
 
         // validação
-        assertEquals(1, repository.count(), "total de albuns");
+        assertEquals(1, repository.count(), "total de autores");
     }
 
     @Test
