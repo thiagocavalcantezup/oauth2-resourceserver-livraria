@@ -96,21 +96,21 @@ curl --request POST \
 ```shell
 curl --request GET \
   --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1 \
-  --header 'Authorization: Bearer <access_token>' \
+  --header 'Authorization: Bearer <access_token>'
 ```
 
 ### Detalhando um livro existente
 ```shell
 curl --request GET \
   --url http://localhost:8080/oauth2-resourceserver-livraria/api/livros/1 \
-  --header 'Authorization: Bearer <access_token>' \
+  --header 'Authorization: Bearer <access_token>'
 ```
 
 ### Removendo um autor existente
 ```shell
 curl --request DELETE \
   --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1 \
-  --header 'Authorization: Bearer <access_token>' \
+  --header 'Authorization: Bearer <access_token>'
 ```
 
 ## Duvidas e suporte
