@@ -34,17 +34,38 @@ git clone git@github.com:zup-academy/oauth2-resourceserver-livraria.git
 ./mvnw spring-boot:run
 ``` 
 
+4. Iniciar o Keycloack via Docker-Compose:
+
+```shell
+docker-compose -f docker-compose-keycloak.yml up -d
+```
+
+5. Acesse o Keycloack usando login `admin` e senha `admin`: http://localhost:18080/auth/admin/;
+6. Crie o Realm `livraria`;
+7. No Realm criado:
+   - 7.1. crie os Users: `rafael.ponte` e `jordi.silva`;
+   - 7.2. crie os Scopes: `autores:read`, `autores:write`, `livros:read` e `livros:write`;
+   - 7.3. crie o Client: `livraria-client`;
+     - configure _Access Type_ como `confidential`;
+     - configure o _Standard Flow Enabled_ como `ON`;
+     - configure o _Direct Access Grants_ Enabled como `ON`;
+     - adicione os Scopes ao Client criado como escopos opcionais;
+
 ## Consumindo a API REST da aplicação
 
 Aqui demonstramos através de alguns exemplos como você pode consumir a API REST exposta pela aplicação. Estamos utilizando o comando `cURL` como cliente HTTP mas você pode usar qualquer outro de sua preferência, como POSTman ou Insomnia. 
 
 Dado que a aplicação esteja rodando, basta executar os comandos abaixo para exercitar os endpoints públicos da aplicação.
 
+### Atenção:
+> Lembre-se de passar o `access_token` no cabeçalho HTTP de cada requisição;
+
 ### Criando novo autor
 
 ```shell
 curl --request POST \
   --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores \
+  --header 'Authorization: Bearer <access_token>' \
   --header 'Content-Type: application/json' \
   --data '{
 	"nome": "Alberto Souza",
@@ -60,6 +81,7 @@ Caso precise gerar ISBN únicos para exercitar este endpoint, basta gera-los no 
 ```shell
 curl --request POST \
   --url http://localhost:8080/oauth2-resourceserver-livraria/api/livros \
+  --header 'Authorization: Bearer <access_token>' \
   --header 'Content-Type: application/json' \
   --data '{
 	"nome": "Spring Security",
@@ -73,19 +95,22 @@ curl --request POST \
 ### Detalhando autor existente
 ```shell
 curl --request GET \
-  --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1
+  --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1 \
+  --header 'Authorization: Bearer <access_token>' \
 ```
 
 ### Detalhando um livro existente
 ```shell
 curl --request GET \
-  --url http://localhost:8080/oauth2-resourceserver-livraria/api/livros/1
+  --url http://localhost:8080/oauth2-resourceserver-livraria/api/livros/1 \
+  --header 'Authorization: Bearer <access_token>' \
 ```
 
 ### Removendo um autor existente
 ```shell
 curl --request DELETE \
-  --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1
+  --url http://localhost:8080/oauth2-resourceserver-livraria/api/autores/1 \
+  --header 'Authorization: Bearer <access_token>' \
 ```
 
 ## Duvidas e suporte
