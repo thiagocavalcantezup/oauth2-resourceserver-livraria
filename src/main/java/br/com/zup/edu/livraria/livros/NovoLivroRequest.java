@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.ISBN;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.zup.edu.livraria.autores.Autor;
 import br.com.zup.edu.livraria.autores.AutorRepository;
 
@@ -30,7 +32,10 @@ public class NovoLivroRequest {
     private Long autorId;
 
     @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate publicadoEm;
+
+    public NovoLivroRequest() {}
 
     public NovoLivroRequest(String nome, String descricao, String isbn, Long autorId,
                             LocalDate publicadoEm) {
