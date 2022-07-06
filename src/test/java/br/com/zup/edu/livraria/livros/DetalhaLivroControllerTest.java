@@ -1,21 +1,23 @@
 package br.com.zup.edu.livraria.livros;
 
-import base.SpringBootIntegrationTest;
-import br.com.zup.edu.livraria.autores.Autor;
-import br.com.zup.edu.livraria.autores.AutorRepository;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import base.SpringBootIntegrationTest;
+import br.com.zup.edu.livraria.autores.Autor;
+import br.com.zup.edu.livraria.autores.AutorRepository;
 
 class DetalhaLivroControllerTest extends SpringBootIntegrationTest {
 
     @Autowired
     private LivroRepository repository;
+
     @Autowired
     private AutorRepository autorRepository;
 
@@ -25,43 +27,44 @@ class DetalhaLivroControllerTest extends SpringBootIntegrationTest {
     public void setUp() {
         repository.deleteAll();
         autorRepository.deleteAll();
-        this.AUTOR = autorRepository.save(new Autor("Rafael",
-                "rafael.ponte@zup.com.br", "dev cansado"));
+        this.AUTOR = autorRepository.save(
+            new Autor("Rafael", "rafael.ponte@zup.com.br", "dev cansado")
+        );
     }
 
     @Test
     public void deveDetalharLivroExistente() throws Exception {
 
         // cenário
-        Livro existente = new Livro("Spring Security",
-                "Sobre Spring Security", "978-0-4703-2225-3", AUTOR, LocalDate.now());
+        Livro existente = new Livro(
+            "Spring Security", "Sobre Spring Security", "978-0-4703-2225-3", AUTOR, LocalDate.now()
+        );
         repository.save(existente);
 
         // ação e validação
         mockMvc.perform(GET("/api/livros/{id}", existente.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(existente.getId()))
-                .andExpect(jsonPath("$.nome").value(existente.getNome()))
-                .andExpect(jsonPath("$.isbn").value(existente.getIsbn()))
-                .andExpect(jsonPath("$.descricao").value(existente.getDescricao()))
-                .andExpect(jsonPath("$.autorId").value(AUTOR.getId()))
-                .andExpect(jsonPath("$.criadoEm").exists())
-                .andExpect(jsonPath("$.publicadoEm").exists())
-        ;
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.id").value(existente.getId()))
+               .andExpect(jsonPath("$.nome").value(existente.getNome()))
+               .andExpect(jsonPath("$.isbn").value(existente.getIsbn()))
+               .andExpect(jsonPath("$.descricao").value(existente.getDescricao()))
+               .andExpect(jsonPath("$.autorId").value(AUTOR.getId()))
+               .andExpect(jsonPath("$.criadoEm").exists())
+               .andExpect(jsonPath("$.publicadoEm").exists());
     }
 
     @Test
     public void naoDeveDetalharLivro_quandoNaoEncontrado() throws Exception {
         // cenário
-        Livro existente = new Livro("Spring Security",
-                "Sobre Spring Security", "978-0-4703-2225-3", AUTOR, LocalDate.now());
+        Livro existente = new Livro(
+            "Spring Security", "Sobre Spring Security", "978-0-4703-2225-3", AUTOR, LocalDate.now()
+        );
         repository.save(existente);
 
         // ação e validação
         mockMvc.perform(GET("/api/livros/{id}", -99999))
-                .andExpect(status().isNotFound())
-                .andExpect(status().reason("livro não encontrado"))
-        ;
+               .andExpect(status().isNotFound())
+               .andExpect(status().reason("livro não encontrado"));
     }
 
 }

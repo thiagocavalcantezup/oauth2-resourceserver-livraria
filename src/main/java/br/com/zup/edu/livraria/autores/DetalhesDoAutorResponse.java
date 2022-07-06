@@ -1,9 +1,9 @@
 package br.com.zup.edu.livraria.autores;
 
+import static java.util.stream.Collectors.toList;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class DetalhesDoAutorResponse {
 
@@ -21,7 +21,7 @@ public class DetalhesDoAutorResponse {
         this.descricao = autor.getDescricao();
         this.criadoEm = autor.getCriadoEm();
         this.livros = autor.getLivros().stream().map((livro) -> {
-           return new LivroResponse(livro);
+            return new LivroResponse(livro);
         }).collect(toList());
     }
 
@@ -48,4 +48,5 @@ public class DetalhesDoAutorResponse {
     public List<LivroResponse> getLivros() {
         return livros;
     }
+
 }

@@ -38,4 +38,5 @@ public class NovoAutorRequest {
     public Autor toModel() {
         return new Autor(nome, email, descricao);
     }
+
 }

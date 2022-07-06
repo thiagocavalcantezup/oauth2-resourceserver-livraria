@@ -1,11 +1,17 @@
 package br.com.zup.edu.livraria.autores;
 
-import br.com.zup.edu.livraria.livros.Livro;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import br.com.zup.edu.livraria.livros.Livro;
 
 @Entity
 public class Autor {
@@ -23,14 +29,11 @@ public class Autor {
     @Column(nullable = false, updatable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();
 
-    @OneToMany(
-        mappedBy = "autor",
-        cascade = { CascadeType.PERSIST, CascadeType.REMOVE }
-    )
+    @OneToMany(mappedBy = "autor", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Livro> livros = new ArrayList<>();
 
     @Deprecated
-    public Autor(){}
+    public Autor() {}
 
     public Autor(String nome, String email, String descricao) {
         this.nome = nome;
@@ -61,4 +64,5 @@ public class Autor {
     public List<Livro> getLivros() {
         return livros;
     }
+
 }

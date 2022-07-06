@@ -1,10 +1,15 @@
 package br.com.zup.edu.livraria.livros;
 
-import br.com.zup.edu.livraria.autores.Autor;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import br.com.zup.edu.livraria.autores.Autor;
 
 @Entity
 public class Livro {
@@ -28,7 +33,7 @@ public class Livro {
     private LocalDateTime criadoEm = LocalDateTime.now();
 
     @Deprecated
-    public Livro(){}
+    public Livro() {}
 
     public Livro(String nome, String descricao, String isbn, Autor autor, LocalDate publicadoEm) {
         this.nome = nome;
@@ -65,4 +70,5 @@ public class Livro {
     public LocalDateTime getCriadoEm() {
         return criadoEm;
     }
+
 }

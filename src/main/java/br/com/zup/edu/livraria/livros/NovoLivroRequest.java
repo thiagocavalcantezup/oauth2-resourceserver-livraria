@@ -1,15 +1,17 @@
 package br.com.zup.edu.livraria.livros;
 
-import br.com.zup.edu.livraria.autores.Autor;
-import br.com.zup.edu.livraria.autores.AutorRepository;
-import org.hibernate.validator.constraints.ISBN;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+
+import org.hibernate.validator.constraints.ISBN;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+import br.com.zup.edu.livraria.autores.Autor;
+import br.com.zup.edu.livraria.autores.AutorRepository;
 
 public class NovoLivroRequest {
 
@@ -30,7 +32,8 @@ public class NovoLivroRequest {
     @NotNull
     private LocalDate publicadoEm;
 
-    public NovoLivroRequest(String nome, String descricao, String isbn, Long autorId, LocalDate publicadoEm) {
+    public NovoLivroRequest(String nome, String descricao, String isbn, Long autorId,
+                            LocalDate publicadoEm) {
         this.nome = nome;
         this.descricao = descricao;
         this.isbn = isbn;
@@ -59,11 +62,13 @@ public class NovoLivroRequest {
     }
 
     public Livro toModel(AutorRepository todosOsAutores) {
-
         Autor autor = todosOsAutores.findById(autorId).orElseThrow(() -> {
-            return new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "autor não encontrado");
+            return new ResponseStatusException(
+                HttpStatus.UNPROCESSABLE_ENTITY, "autor não encontrado"
+            );
         });
 
         return new Livro(nome, descricao, isbn, autor, publicadoEm);
     }
+
 }

@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-Oauth2ResourceserverLivrariaApplication<oauth2-resourceserver-livraria>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "br.com.zup.edu.livraria.Oauth2ResourceserverLivrariaApplication",
+      "projectName": "oauth2-resourceserver-livraria",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
