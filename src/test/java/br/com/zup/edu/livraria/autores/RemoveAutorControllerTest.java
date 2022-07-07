@@ -1,11 +1,13 @@
 package br.com.zup.edu.livraria.autores;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import base.SpringBootIntegrationTest;
 
@@ -26,8 +28,11 @@ class RemoveAutorControllerTest extends SpringBootIntegrationTest {
         repository.save(autor);
 
         // ação
-        mockMvc.perform(DELETE("/api/autores/{id}", autor.getId()))
-               .andExpect(status().isNoContent());
+        mockMvc.perform(
+            DELETE("/api/autores/{id}", autor.getId()).with(
+                jwt().authorities(new SimpleGrantedAuthority("SCOPE_autores:write"))
+            )
+        ).andExpect(status().isNoContent());
 
         // validação
         assertEquals(0, repository.count(), "total de albuns");
@@ -40,12 +45,36 @@ class RemoveAutorControllerTest extends SpringBootIntegrationTest {
         repository.save(autor);
 
         // ação
-        mockMvc.perform(DELETE("/api/autores/{id}", -99999))
-               .andExpect(status().isNotFound())
-               .andExpect(status().reason("autor não encontrado"));
+        mockMvc.perform(
+            DELETE("/api/autores/{id}", -99999).with(
+                jwt().authorities(new SimpleGrantedAuthority("SCOPE_autores:write"))
+            )
+        ).andExpect(status().isNotFound()).andExpect(status().reason("autor não encontrado"));
 
         // validação
         assertEquals(1, repository.count(), "total de albuns");
+    }
+
+    @Test
+    public void naoDeveRemoverAutorExistente_quandoTokenNaoEnviado() throws Exception {
+        // cenário
+        Autor autor = new Autor("Rafael", "rafael.ponte@zup.com.br", "dev cansado");
+        repository.save(autor);
+
+        // ação
+        mockMvc.perform(DELETE("/api/autores/{id}", autor.getId()))
+               .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void naoDeveRemoverAutorExistente_quandoTokenNaoPossuiEscopoApropriado() throws Exception {
+        // cenário
+        Autor autor = new Autor("Rafael", "rafael.ponte@zup.com.br", "dev cansado");
+        repository.save(autor);
+
+        // ação
+        mockMvc.perform(DELETE("/api/autores/{id}", autor.getId()).with(jwt()))
+               .andExpect(status().isForbidden());
     }
 
 }

@@ -1,12 +1,14 @@
 package br.com.zup.edu.livraria.autores;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import base.SpringBootIntegrationTest;
 
@@ -28,9 +30,11 @@ class NovoAutorControllerTest extends SpringBootIntegrationTest {
         );
 
         // ação
-        mockMvc.perform(POST("/api/autores", novoAutor))
-               .andExpect(status().isCreated())
-               .andExpect(redirectedUrlPattern("**/api/autores/*"));
+        mockMvc.perform(
+            POST("/api/autores", novoAutor).with(
+                jwt().authorities(new SimpleGrantedAuthority("SCOPE_autores:write"))
+            )
+        ).andExpect(status().isCreated()).andExpect(redirectedUrlPattern("**/api/autores/*"));
 
         // validação
         assertEquals(1, repository.count(), "total de autores");
@@ -42,7 +46,11 @@ class NovoAutorControllerTest extends SpringBootIntegrationTest {
         NovoAutorRequest autorInvalido = new NovoAutorRequest("", "", "");
 
         // ação
-        mockMvc.perform(POST("/api/autores", autorInvalido)).andExpect(status().isBadRequest());
+        mockMvc.perform(
+            POST("/api/autores", autorInvalido).with(
+                jwt().authorities(new SimpleGrantedAuthority("SCOPE_autores:write"))
+            )
+        ).andExpect(status().isBadRequest());
 
         // validação
         assertEquals(0, repository.count(), "total de autores");
@@ -59,12 +67,39 @@ class NovoAutorControllerTest extends SpringBootIntegrationTest {
         );
 
         // ação
-        mockMvc.perform(POST("/api/autores", autorInvalido))
+        mockMvc.perform(
+            POST("/api/autores", autorInvalido).with(
+                jwt().authorities(new SimpleGrantedAuthority("SCOPE_autores:write"))
+            )
+        )
                .andExpect(status().isUnprocessableEntity())
                .andExpect(status().reason("autor com este email já existente"));
 
         // validação
         assertEquals(1, repository.count(), "total de autores");
+    }
+
+    @Test
+    public void naoDeveCadastrarNovoAutor_quandoTokenNaoEnviado() throws Exception {
+        // cenário
+        NovoAutorRequest novoAutor = new NovoAutorRequest(
+            "Alberto", "alberto.souza@zup.com.br", "CTO"
+        );
+
+        // ação
+        mockMvc.perform(POST("/api/autores", novoAutor)).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void naoDeveCadastrarNovoAutor_quandoTokenNaoPossuiEscopoApropriado() throws Exception {
+        // cenário
+        NovoAutorRequest novoAutor = new NovoAutorRequest(
+            "Alberto", "alberto.souza@zup.com.br", "CTO"
+        );
+
+        // ação
+        mockMvc.perform(POST("/api/autores", novoAutor).with(jwt()))
+               .andExpect(status().isForbidden());
     }
 
 }
